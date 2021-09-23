@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "561269912463",
+    "project_id": "abdelrahman-flutter-socia",
+    "storage_bucket": "abdelrahman-flutter-socia.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:561269912463:android:ea472a01e20fb3d89811fa",
+        "android_client_info": {
+          "package_name": "com.example.zigzag_app_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "561269912463-fqi88gj01t3feh7dvhb8mrif20eml0fq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtgd31wJ4wt7aeaRzMLgA-katrPzS6ZkU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "561269912463-fqi88gj01t3feh7dvhb8mrif20eml0fq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "561269912463-nm3j5h6kq23883v1f7d40lc7emn95emo.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.zigzagAppFlutter"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
