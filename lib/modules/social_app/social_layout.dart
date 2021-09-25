@@ -25,13 +25,10 @@ class SocialLayout extends StatelessWidget {
             ],
             title: Text(cubit.titles[cubit.currentIndex]),
           ),
-          // body: SocialCubit.get(context).model != null
-          //     ? buildWidgetData(context, SocialCubit.get(context).model)
-          //     : Center(
-          //         child: CircularProgressIndicator(),
-          //       ));
           body: cubit.screens[cubit.currentIndex],
           bottomNavigationBar: BottomNavigationBar(
+            backgroundColor: Colors.blue,
+            selectedItemColor: Colors.orange,
             currentIndex: cubit.currentIndex,
             onTap: (index) {
               cubit.changeBottomNav(index);

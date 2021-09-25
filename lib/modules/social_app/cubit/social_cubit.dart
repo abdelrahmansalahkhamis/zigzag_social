@@ -10,6 +10,7 @@ import 'package:zigzag_app_flutter/layout/social_app/settings/settings_screen.da
 import 'package:zigzag_app_flutter/layout/social_app/users/users_screen.dart';
 import 'package:zigzag_app_flutter/models/social_model.dart';
 import 'package:zigzag_app_flutter/shared/constants/constants.dart';
+import 'package:zigzag_app_flutter/shared/network/local/cache_helper.dart';
 
 part 'social_states.dart';
 
@@ -19,7 +20,11 @@ class SocialCubit extends Cubit<SocialStates> {
   SocialUserModel? model;
   void getUserData() {
     emit(SocialGetUserLoadingState());
-    FirebaseFirestore.instance.collection('users').doc(uId).get().then((value) {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(CacheHelper.getData('uId'))
+        .get()
+        .then((value) {
       print(value.data());
       model = SocialUserModel.fromJson(value.data()!);
       print('model is : => ${model}');

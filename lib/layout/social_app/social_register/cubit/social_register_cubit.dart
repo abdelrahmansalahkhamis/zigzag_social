@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
 import 'package:zigzag_app_flutter/models/social_model.dart';
+import 'package:zigzag_app_flutter/shared/constants/constants.dart';
+import 'package:zigzag_app_flutter/shared/network/local/cache_helper.dart';
 
 part 'social_register_states.dart';
 
@@ -25,6 +27,8 @@ class SocialRegitsterCubit extends Cubit<SocialRegisterStates> {
       print(value.user!.email);
       //userCreate(email, name, phone, value.user!.uid);
       userCreate(email, name, phone, value.user!.uid);
+      uId = value.user!.uid;
+      CacheHelper.saveData('uId', value.user!.uid);
       //emit(SocialRegitsterSuccessState());
     }).catchError((error) {
       emit(SocialRegitsterErrorState());
