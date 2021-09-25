@@ -26,23 +26,31 @@ class SocialLayout extends StatelessWidget {
             title: Text(cubit.titles[cubit.currentIndex]),
           ),
           body: cubit.screens[cubit.currentIndex],
-          bottomNavigationBar: BottomNavigationBar(
-            backgroundColor: Colors.blue,
-            selectedItemColor: Colors.orange,
-            currentIndex: cubit.currentIndex,
-            onTap: (index) {
-              cubit.changeBottomNav(index);
-            },
-            items: [
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-              BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chats'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.upload_sharp), label: 'Post'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.location_city), label: 'Users'),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.verified_user_sharp), label: 'Settings')
-            ],
+          bottomNavigationBar: Theme(
+            data: Theme.of(context).copyWith(
+                // sets the background color of the `BottomNavigationBar`
+                canvasColor: Colors.blue,
+                // sets the active color of the `BottomNavigationBar` if `Brightness` is light
+                primaryColor: Colors.red,
+                textTheme: Theme.of(context)
+                    .textTheme
+                    .copyWith(caption: new TextStyle(color: Colors.yellow))),
+            child: BottomNavigationBar(
+              currentIndex: cubit.currentIndex,
+              onTap: (index) {
+                cubit.changeBottomNav(index);
+              },
+              items: [
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+                BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Chats'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.upload_sharp), label: 'Post'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.location_city), label: 'Users'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.verified_user_sharp), label: 'Settings')
+              ],
+            ),
           ));
     });
   }
