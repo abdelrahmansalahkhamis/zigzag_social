@@ -56,7 +56,7 @@ class SocialLayout extends StatelessWidget {
   }
 
   Widget buildWidgetData(context, model) {
-    var model = SocialCubit.get(context).model;
+    var model = SocialCubit.get(context).userModel;
     return Column(
       children: [
         if (!FirebaseAuth.instance.currentUser!.emailVerified)

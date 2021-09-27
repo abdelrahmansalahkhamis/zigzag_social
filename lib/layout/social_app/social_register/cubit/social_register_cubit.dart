@@ -41,15 +41,17 @@ class SocialRegitsterCubit extends Cubit<SocialRegisterStates> {
       String image =
           'https://image.freepik.com/free-photo/covid-19-healthcare-workers-pandemic-preventing-virus-concept-serious-determined-doctor-working-with-coronavirus-patients-wearing-protective-personal-equipment-medical-mask-gloves_1258-58624.jpg',
       String cover = ''}) {
-    SocialUserModel model = SocialUserModel(
-        email: email,
-        name: name,
-        phone: phone,
-        uId: uId,
-        isVerifiedEmail: false,
-        image: image,
-        bio: bio,
-        cover: cover);
+    // SocialUserModel model = SocialUserModel(
+    //     email: email,
+    //     name: name,
+    //     phone: phone,
+    //     uId: uId,
+    //     isVerifiedEmail: false,
+    //     image: image,
+    //     bio: bio,
+    //     cover: cover);
+    SocialUserModel model =
+        SocialUserModel(email, name, phone, uId, image, cover, bio, false);
     FirebaseFirestore.instance
         .collection('users')
         .doc(uId)

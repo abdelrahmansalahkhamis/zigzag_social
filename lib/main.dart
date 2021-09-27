@@ -22,8 +22,9 @@ void main() async {
   // String? token = CacheHelper.getData('token');
   try {
     uId = CacheHelper.getData('uId');
+    print('CacheHelper.getData(id) is : ${uId}');
   } catch (error) {
-    print(error.toString());
+    print('error.toString() is ${error.toString()}');
   }
   if (uId != null) {
     widget = SocialLayout();
@@ -44,7 +45,9 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (BuildContext context) => SocialCubit()..getUserData())
+            create: (BuildContext context) => SocialCubit()
+              ..getUserData()
+              ..getPosts())
       ],
       child: BlocConsumer<SocialCubit, SocialStates>(
         listener: (context, state) {

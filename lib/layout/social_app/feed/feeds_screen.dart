@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zigzag_app_flutter/models/post_model.dart';
+import 'package:zigzag_app_flutter/modules/social_app/cubit/social_cubit.dart';
 import 'package:zigzag_app_flutter/shared/styles/colors.dart';
 
 class FeedsScreen extends StatelessWidget {
@@ -6,46 +9,59 @@ class FeedsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
-      child: Column(
-        children: [
-          Card(
-            clipBehavior: Clip.antiAliasWithSaveLayer,
-            elevation: 5.0,
-            margin: EdgeInsets.all(8.0),
-            child:
-                Stack(alignment: AlignmentDirectional.bottomStart, children: [
-              Image(
-                image: AssetImage('assets/images/handsome.jpg'),
-                fit: BoxFit.cover,
-                height: 200.0,
-                width: double.infinity,
-              ),
-              Text(
-                'communicate with friends',
-                style: Theme.of(context).textTheme.subtitle1,
-              )
-            ]),
-          ),
-          ListView.separated(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) => buildPostItem(context),
-            itemCount: 10,
-            separatorBuilder: (context, index) => SizedBox(
-              height: 8.0,
+    return BlocConsumer<SocialCubit, SocialStates>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        if (SocialCubit.get(context).posts.length > 0) {
+          return SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                Card(
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  elevation: 5.0,
+                  margin: EdgeInsets.all(8.0),
+                  child: Stack(
+                      alignment: AlignmentDirectional.bottomStart,
+                      children: [
+                        Image(
+                          image: AssetImage('assets/images/handsome.jpg'),
+                          fit: BoxFit.cover,
+                          height: 200.0,
+                          width: double.infinity,
+                        ),
+                        Text(
+                          'communicate with friends',
+                          style: Theme.of(context).textTheme.subtitle1,
+                        )
+                      ]),
+                ),
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) => buildPostItem(
+                      SocialCubit.get(context).posts[index], context),
+                  itemCount: SocialCubit.get(context).posts.length,
+                  separatorBuilder: (context, index) => SizedBox(
+                    height: 8.0,
+                  ),
+                ),
+                SizedBox(
+                  height: 8.0,
+                )
+              ],
             ),
-          ),
-          SizedBox(
-            height: 8.0,
-          )
-        ],
-      ),
+          );
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
     );
   }
 
-  Widget buildPostItem(context) => Card(
+  Widget buildPostItem(PostModel model, context) => Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       elevation: 5.0,
       margin: EdgeInsets.all(8.0),
@@ -57,8 +73,7 @@ class FeedsScreen extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 25.0,
-                  backgroundImage: NetworkImage(
-                      'https://image.freepik.com/free-photo/handsome-confident-smiling-man-with-hands-crossed-chest_176420-18743.jpg'),
+                  backgroundImage: NetworkImage('${model.image}'),
                 ),
                 SizedBox(
                   width: 20.0,
@@ -70,7 +85,7 @@ class FeedsScreen extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            'Abdullah Mansour',
+                            '${model.name}',
                             style: TextStyle(height: 1.3),
                           ),
                           SizedBox(
@@ -83,7 +98,7 @@ class FeedsScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Text('January 21, 2021 at 11:00 pm',
+                      Text('${model.dateTime}',
                           style: Theme.of(context).textTheme.caption),
                     ],
                   ),
@@ -108,7 +123,7 @@ class FeedsScreen extends StatelessWidget {
               ),
             ),
             Text(
-              'Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.',
+              '${model.text}',
               style: Theme.of(context).textTheme.subtitle1,
             ),
             Padding(
@@ -149,16 +164,21 @@ class FeedsScreen extends StatelessWidget {
                 ]),
               ),
             ),
-            Container(
-                height: 160.0,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.0),
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/handsome.jpg'),
-                    fit: BoxFit.cover,
-                  ),
-                )),
+            if (model.postImage != '')
+              Padding(
+                padding: EdgeInsetsDirectional.only(top: 15.0),
+                child: Container(
+                    height: 160.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(4.0),
+                      image: DecorationImage(
+                        //image: AssetImage('${model.postImage}'),
+                        image: NetworkImage('${model.postImage}'),
+                        fit: BoxFit.cover,
+                      ),
+                    )),
+              ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Row(
@@ -177,7 +197,7 @@ class FeedsScreen extends StatelessWidget {
                             ),
                             SizedBox(width: 5.0),
                             Text(
-                              '120',
+                              '0',
                               style: Theme.of(context).textTheme.caption,
                             )
                           ],
@@ -200,7 +220,7 @@ class FeedsScreen extends StatelessWidget {
                             ),
                             SizedBox(width: 5.0),
                             Text(
-                              '120 comments',
+                              '0 comments',
                               style: Theme.of(context).textTheme.caption,
                             )
                           ],
@@ -229,7 +249,7 @@ class FeedsScreen extends StatelessWidget {
                         CircleAvatar(
                           radius: 18.0,
                           backgroundImage: NetworkImage(
-                              'https://image.freepik.com/free-photo/handsome-confident-smiling-man-with-hands-crossed-chest_176420-18743.jpg'),
+                              '${SocialCubit.get(context).userModel!.image}'),
                         ),
                         SizedBox(
                           width: 1.0,

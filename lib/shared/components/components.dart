@@ -210,7 +210,7 @@ Widget defaultTextButton(VoidCallback function, String text) => TextButton(
     onPressed: function,
     child: Text(
       text,
-      style: TextStyle(fontWeight: FontWeight.bold),
+      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
     ));
 
 void showToast(String text, ToastState state) {
