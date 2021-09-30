@@ -9,59 +9,61 @@ class FeedsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SocialCubit, SocialStates>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
-      builder: (context, state) {
-        if (SocialCubit.get(context).posts.length > 0) {
-          return SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
-            child: Column(
-              children: [
-                Card(
-                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                  elevation: 5.0,
-                  margin: EdgeInsets.all(8.0),
-                  child: Stack(
-                      alignment: AlignmentDirectional.bottomStart,
-                      children: [
-                        Image(
-                          image: AssetImage('assets/images/handsome.jpg'),
-                          fit: BoxFit.cover,
-                          height: 200.0,
-                          width: double.infinity,
-                        ),
-                        Text(
-                          'communicate with friends',
-                          style: Theme.of(context).textTheme.subtitle1,
-                        )
-                      ]),
-                ),
-                ListView.separated(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => buildPostItem(
-                      SocialCubit.get(context).posts[index], context),
-                  itemCount: SocialCubit.get(context).posts.length,
-                  separatorBuilder: (context, index) => SizedBox(
-                    height: 8.0,
-                  ),
-                ),
-                SizedBox(
+    return BlocConsumer<SocialCubit, SocialStates>(listener: (context, state) {
+      // if (state is SocialGetPostSuccessState) {
+      //   SocialCubit.get(context).getPosts();
+      // }
+    },
+        //
+        builder: (context, state) {
+      if (SocialCubit.get(context).posts.length > 0 &&
+          SocialCubit.get(context).userModel != null) {
+        return SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            children: [
+              Card(
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                elevation: 5.0,
+                margin: EdgeInsets.all(8.0),
+                child: Stack(
+                    alignment: AlignmentDirectional.bottomStart,
+                    children: [
+                      Image(
+                        image: AssetImage('assets/images/handsome.jpg'),
+                        fit: BoxFit.cover,
+                        height: 200.0,
+                        width: double.infinity,
+                      ),
+                      Text(
+                        'communicate with friends',
+                        style: Theme.of(context).textTheme.subtitle1,
+                      )
+                    ]),
+              ),
+              ListView.separated(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) => buildPostItem(
+                    SocialCubit.get(context).posts[index], context, index),
+                itemCount: SocialCubit.get(context).posts.length,
+                separatorBuilder: (context, index) => SizedBox(
                   height: 8.0,
-                )
-              ],
-            ),
-          );
-        } else {
-          return Center(child: CircularProgressIndicator());
-        }
-      },
-    );
+                ),
+              ),
+              SizedBox(
+                height: 8.0,
+              )
+            ],
+          ),
+        );
+      } else {
+        return Center(child: CircularProgressIndicator());
+      }
+    });
   }
 
-  Widget buildPostItem(PostModel model, context) => Card(
+  Widget buildPostItem(PostModel model, context, index) => Card(
       clipBehavior: Clip.antiAliasWithSaveLayer,
       elevation: 5.0,
       margin: EdgeInsets.all(8.0),
@@ -197,7 +199,8 @@ class FeedsScreen extends StatelessWidget {
                             ),
                             SizedBox(width: 5.0),
                             Text(
-                              '0',
+                              '${SocialCubit.get(context).likes[index]}',
+                              //'0',
                               style: Theme.of(context).textTheme.caption,
                             )
                           ],
@@ -252,7 +255,7 @@ class FeedsScreen extends StatelessWidget {
                               '${SocialCubit.get(context).userModel!.image}'),
                         ),
                         SizedBox(
-                          width: 1.0,
+                          width: 10.0,
                         ),
                         Text('write a comment',
                             style: Theme.of(context).textTheme.caption),
@@ -261,7 +264,10 @@ class FeedsScreen extends StatelessWidget {
                   ),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () {
+                    SocialCubit.get(context)
+                        .likePost(SocialCubit.get(context).postsIds[index]);
+                  },
                   child: Row(
                     children: [
                       Icon(
