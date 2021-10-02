@@ -33,7 +33,7 @@ class SocialCubit extends Cubit<SocialStates> {
         .then((value) {
       print('value.data() is ${value.data()}');
       userModel = SocialUserModel.fromJson(value.data()!);
-      print('model is : => ${userModel}');
+      print('model is : => ${userModel!.name}');
       emit(SocialGetUserSuccessState());
     }).catchError((error) {
       print(error.toString());
@@ -304,6 +304,7 @@ class SocialCubit extends Cubit<SocialStates> {
         .add(model.toMap())
         .then((value) {
       emit(SocialSendMessageSuccessState());
+      sendButtonEnabled = false;
     }).catchError((error) {
       emit(SocialSendMessageerrorState());
     });
@@ -320,5 +321,36 @@ class SocialCubit extends Cubit<SocialStates> {
     }).catchError((error) {
       emit(SocialSendMessageerrorState());
     });
+  }
+
+  List<MessageModel> messages = [];
+  void getMessages(String receiverId) {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userModel!.uId)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .orderBy('dateTime')
+        .snapshots()
+        .listen((event) {
+      messages = [];
+      event.docs.forEach((element) {
+        messages.add(MessageModel.fromJson(element.data()));
+      });
+      emit(SocialGetMessageSuccessState());
+    });
+  }
+
+  var sendButtonEnabled = false;
+
+  void changeSendButtonSate() {
+    if (sendButtonEnabled) {
+      sendButtonEnabled = false;
+      emit(SocialMessageTextButtonEnabledState());
+    } else {
+      sendButtonEnabled = true;
+      emit(SocialMessageTextButtonDisabledState());
+    }
   }
 }

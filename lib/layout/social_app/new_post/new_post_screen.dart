@@ -45,15 +45,17 @@ class NewPostScreen extends StatelessWidget {
                   children: [
                     CircleAvatar(
                       radius: 25.0,
+                      // backgroundImage: NetworkImage(
+                      //     'https://image.freepik.com/free-photo/handsome-confident-smiling-man-with-hands-crossed-chest_176420-18743.jpg'),
                       backgroundImage: NetworkImage(
-                          'https://image.freepik.com/free-photo/handsome-confident-smiling-man-with-hands-crossed-chest_176420-18743.jpg'),
+                          '${SocialCubit.get(context).userModel!.image}'),
                     ),
                     SizedBox(
                       width: 20.0,
                     ),
                     Expanded(
                       child: Text(
-                        'Abdullah Mansour',
+                        '${SocialCubit.get(context).userModel!.name}',
                         style: TextStyle(height: 1.3),
                       ),
                     ),
