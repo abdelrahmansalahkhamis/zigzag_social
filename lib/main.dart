@@ -24,12 +24,20 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   showToast('Background notif', ToastState.SUCCESS);
 }
 
+//final FirebaseMessaging _fcm = FirebaseMessaging();
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
 
-  var token = FirebaseMessaging.instance.getToken();
+  var token = await FirebaseMessaging.instance.getToken();
+  print('device token :-');
+
+  // _fcm.getToken().then((token) {
+  //   print('the token is : ' + token!);
+  // });
+
+  print('${token}');
 
   FirebaseMessaging.onMessage.listen((event) {
     print(event.data.toString());

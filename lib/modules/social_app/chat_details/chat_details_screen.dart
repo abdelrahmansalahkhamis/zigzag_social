@@ -15,7 +15,6 @@ class ChatDetailsScreen extends StatelessWidget {
     final _controller = ScrollController();
     return Builder(builder: (context) {
       SocialCubit.get(context).getMessages('${userModel.uId}');
-      _controller.jumpTo(_controller.position.maxScrollExtent);
       return BlocConsumer<SocialCubit, SocialStates>(
         listener: (context, state) {
           // TODO: implement listener

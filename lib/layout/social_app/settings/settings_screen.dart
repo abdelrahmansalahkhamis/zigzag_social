@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zigzag_app_flutter/layout/social_app/edit_profile/edit_profile_screen.dart';
@@ -156,6 +157,29 @@ class SettingsScreen extends StatelessWidget {
                     onPressed: () {
                       navigateTo(context, EditProfileScreen());
                     },
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                        onPressed: () {
+                          FirebaseMessaging.instance
+                              .subscribeToTopic('announcement');
+                        },
+                        child: Text('Subscribe')),
+                  ),
+                  SizedBox(
+                    width: 10.0,
+                  ),
+                  Expanded(
+                    child: OutlinedButton(
+                        onPressed: () {
+                          FirebaseMessaging.instance
+                              .unsubscribeFromTopic('announcement');
+                        },
+                        child: Text('unSubscribe')),
                   )
                 ],
               )
